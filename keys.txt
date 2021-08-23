@@ -1,0 +1,6 @@
+hello
+world
+cricket
+duck
+name
+meme
