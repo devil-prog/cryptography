@@ -14,8 +14,10 @@ def encrypt():
             out = (out + KEY[j])
         j = j+1
         if j > keyi:
-            j = 0
+            j = 0  
 
+    out = out.lower()
+    
     for i in range(txti):
         x = alpha.index(out[i])
         y = alpha.index(txt[i])
@@ -68,7 +70,20 @@ def decrypt():
     def dc2():
         #bruteforce
         BKEY = open('keys.txt','r').read().split('\n')
-        for i in range (len(BKEY)):
+        try:
+            times = int(input("how many brutes {len(BKEY)}: "))
+        except ValueError:
+            times = len(BKEY)
+
+        try:
+            keylen = int(input("length of key: "))
+            filtered = filter(lambda key: len(key) == keylen, BKEY)
+            BKEY = list(filtered)
+            times = len(BKEY)
+        except ValueError:
+            pass
+
+        for i in range (times):
             KEY = BKEY[i]
             keyi = len(KEY) - 1
             txti = len(txt)
@@ -81,9 +96,14 @@ def decrypt():
                 j = j+1
                 if j > keyi:
                     j = 0
-            
+
+            out = out.lower()
+
             for i in range(txti):
-                x = alpha.index(out[i])
+                try:
+                    x = alpha.index(out[i])
+                except ValueError:
+                    continue
                 y = alpha.index(txt[i])
 
                 k = int(y-x)
@@ -93,7 +113,7 @@ def decrypt():
                 except UnboundLocalError:
                     output = alpha[k]
 
-            print(output)
+            print(f"Key:{KEY}\n Text:{output}\n\n")
             output = ''
 
     
